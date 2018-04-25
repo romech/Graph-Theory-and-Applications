@@ -1,0 +1,5 @@
+0.09+-0.09 sec for astar_manh
+0.12+-0.12 sec for astar_euc
+0.13+-0.11 sec for astar_cheb
+0.12+-0.03 sec for dijkstra
+1.03+-0.33 sec for levit

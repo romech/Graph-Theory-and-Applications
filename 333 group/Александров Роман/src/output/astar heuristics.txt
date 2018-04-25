@@ -1,0 +1,3 @@
+0.08+-0.05 sec for astar_manh
+0.11+-0.08 sec for astar_cheb
+0.12+-0.08 sec for astar_euc

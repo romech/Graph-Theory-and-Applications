@@ -4,12 +4,13 @@ import os
 
 app_window = tk.Tk()
 txt_box = tk.Label(app_window, text='''1. Open an .osm file
-2. Wait ~ 1 minute
-3. Program  produces 3 files:
- - adj_list.txt
- - light_map.svg
- - full_map.pdf
-4. Program closes''', height=8, width=30)
+2. Wait ~ 1 minute (while program looks frozen)
+3. Program produces a few files including:
+ - ******.osmdump
+ - output/adj_list.txt
+ - output/light_map.pdf
+ - output/full_map.pdf
+4. Program closes''', height=8, width=50)
  
 txt_box.config(font=("Sans", 14), justify=tk.LEFT)
 txt_box.pack()
