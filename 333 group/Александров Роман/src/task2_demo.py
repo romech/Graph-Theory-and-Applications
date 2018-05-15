@@ -108,9 +108,9 @@ if __name__ == '__main__':
         demo_ui()
         sys.exit(0)
 
-    if len(argv) == 2 and all(map(str.isnumeric, argv)):
+    if len(argv) >=2 and all(map(str.isnumeric, argv[-2:])):
         import math, utm
-        lat, lon = map(float, argv)
+        lat, lon = map(float, argv[-2:])
         x, y, _, _ = utm.from_latlon(lat, lon)
         demo_ui({1:{'x':x, 'y':y, 'lat': math.radians(lat), 'lon':math.radians(lon)}})
         sys.exit(0)
@@ -128,3 +128,20 @@ if __name__ == '__main__':
             else:
                 print('Undefined argument (not a node of any road):', argv)
         
+
+
+
+
+
+#  OLDE STORY WITH MULTIPLE PROCESSES
+
+    # with proc_pool(max_workers=3) as executor:
+    #     elapsed = list(executor.map(demonstrate, *zip(*kw)))
+
+    #     # Calcualting average over each function
+    #     total_by_fn = defaultdict(float)
+    #     for fn, t in zip(map(itemgetter(0), kw), elapsed):
+    #         total_by_fn[fn.__name__] += t
+    #     print('Average time of work:')
+    #     for fn, sum_t in total_by_fn.items():
+    #         print('{:.3f} sec for {}'.format(sum_t/len(starts), fn))

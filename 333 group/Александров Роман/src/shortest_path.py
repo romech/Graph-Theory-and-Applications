@@ -40,9 +40,13 @@ def get_info(nd_id):
     except KeyError:
         return {id:nd_id}
 
+
 # get_info = lambda nd_id: dict(id=nd_id, **nodes[nd_id])
+def random_nodeid():
+    return choice(node_ids)
+
 def random_node():
-    nodes[choice(node_ids)]
+    return nodes[random_nodeid()]
 
 def make_point_at(x_rel, y_rel):
     x, y = bounds.left * (1 - x_rel) + bounds.right * x_rel, bounds.bottom * (1 - y_rel) + bounds.top * y_rel
@@ -127,4 +131,7 @@ def add_intermediate(n1, n2):
 
 def expand_path(path):
     "Takes a path without intermediate nodes and returns an enhanced path as a list"
+    # if len(path) == 2 and isinstance(path[1], tuple):
+    #     path = restore_path(path)
+    #     print('i fall in an obsolete IF @ shortest_path:118')
     return list(chain.from_iterable(add_intermediate(n1, n2) for n1, n2 in pairwise(path)))+[path[-1]]

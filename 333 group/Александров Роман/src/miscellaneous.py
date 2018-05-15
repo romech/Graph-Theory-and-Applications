@@ -28,9 +28,15 @@ def timed(fn):
     decfn.last_run = lambda: fn.hist[-1] if fn.hist else None
     decfn.avg = lambda: sum(fn.hist)/len(fn.hist) if fn.hist else None
     decfn.stats = lambda: _stats_string(fn.hist, fn.__name__)
+    timed.funcs.add(decfn)
     return decfn
 
+# Sorry for the dirty magic
+timed.funcs = set()
+timed.stats = lambda: print(*(fn.stats() for fn in timed.funcs if fn.hist), sep='\n')
+
 if __name__ == '__main__':
+# if False:
     import time, random
     @timed
     def waiter():
@@ -38,6 +44,7 @@ if __name__ == '__main__':
 
     for _ in range(4):
         waiter()
-    print(waiter.stats())
+    waiter.stats()
+    timed.stats()
 
         

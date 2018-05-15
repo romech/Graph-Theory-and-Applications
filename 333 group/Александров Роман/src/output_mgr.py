@@ -56,7 +56,7 @@ def _road_linestyle(kind, lanes):
         return [style.linewidth((int(lanes)+1)*4)]
 
 def linspace_colors(n):
-    return [color.hsb(0.85*i/(n-1), 1, 0.85) for i in range(n)] if n > 1 else color.hsb(0.2, 1, 0.85)
+    return [color.hsb(0.85*i/(n-1), 1, 0.85) for i in range(n)] if n > 1 else (color.hsb(0, 1, 0.85),)
 
 def make_style(color=None, kind=None, lanes=None):
     '''
@@ -74,8 +74,7 @@ def make_style(color=None, kind=None, lanes=None):
 
 Rect = namedtuple('Rect', ['right', 'top', 'left', 'bottom'])
 
-# THIS MAKES IT IMPOSSIBLE TO USE WITH ANY OTHER CITY
-if True: 
+if True: # marker for Cheboksary. TODO: make it another way
     bounds_ll = Rect(47.6023, 56.1966, 46.9347, 56.0061)
     bounds = Rect(*from_latlon(bounds_ll.top, bounds_ll.right)[:2],
                   *from_latlon(bounds_ll.bottom, bounds_ll.left)[:2])
@@ -137,23 +136,29 @@ def build_map(nodes, ways, filename='map.pdf', full=True, highlight_ways=None, h
 
 from itertools import zip_longest
 def write_paths_csv(paths, filename, summary=None):
-    "From ... to | ... ... ... | summary | blank line | paths ..."
+
     if not filename.endswith('.csv'):
         filename += '.csv'
     with _open(filename, 'w') as table:
         print_kw = {'sep':',,', 'file':table}
-
+        
+        # From ... to | ... ... ... | summary | blank line
         print('From,{},to:'.format(paths[0][0]), file=table)
         print(*(path[-1] for path in paths), **print_kw)
-        if summary: print(*summary, **print_kw)
+        if summary:
+            print(**print_kw)        
+            print(*summary, **print_kw)
         print(**print_kw)
 
         for nodes in zip_longest(*paths,fillvalue=''):
             print(*nodes, **print_kw)
 
 def write_report(filename, contents):
-    "Handy function to create text files. `contents` is some iterable"
     with _open(filename, 'w') as file:
         for line in contents:
             print(line, file=file)
 
+if __name__ == '__main__':
+    # write_paths_csv((1,2,3,4,5,6,7), 'demo.csv')
+
+    write_paths_csv(((1,2,3),(1,10),(1,100,200,300)), 'demo')
